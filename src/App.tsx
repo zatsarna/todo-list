@@ -12,10 +12,19 @@ function App() {
         {id: v1(), title: 'JS', isDone: true},
         {id: v1(), title: 'ReactJS', isDone: false}
     ])
+    const changeStatus=(taskID: string, isChecked: boolean)=>{
+        let task=tasks.find(el => el.id===taskID)
+        if (task){
+            task.isDone=isChecked
+        }
+        setTasks([...tasks])
+        /*setTasks(tasks.map(el => el.id===taskID ? {...el, isDone: isChecked} :el))*/
+    }
     const [filter, setFilter] = useState<FilterType>('all')
+
     const addTask=(title: string)=>{
         let newTask= {id: v1(), title: title, isDone: false}
-        setTasks([newTask,...tasks])
+            setTasks([newTask,...tasks])
     }
     const deleteTask = (elId: string) => {
         setTasks(tasks.filter(e => e.id !== elId))
@@ -32,7 +41,10 @@ function App() {
 
     return (
         <div className="App">
-            <Todolist title="What to learn" tasks={tasks} deleteTask={deleteTask} changeFilter={changeFilter} addTask={addTask}/>
+            <Todolist title="What to learn" tasks={tasks} deleteTask={deleteTask} changeFilter={changeFilter} addTask={addTask}
+                      changeStatus={changeStatus}
+                      filter={filter}
+            />
 
         </div>
     );
