@@ -12,11 +12,13 @@ export type TaskType = {
 type PropsType = {
     title: string
     tasks: Array<TaskType>
-    deleteTask: (elId: string) => void
-    changeFilter: (value: FilterType) => void
-    addTask: (t: string) => void
-    changeStatus: (tID: string, isChecked: boolean)=>void
+    deleteTask: (elId: string, todolistID: string) => void
+    changeFilter: (value: FilterType, ID: string) => void
+    addTask: (todolistID:string, t: string) => void
+    changeStatus: (todolistID: string,tID: string, isChecked: boolean)=>void
     filter: FilterType
+    todolistId: string
+    deleteTodolist: (todolistID: string)=>void
 }
 
 export function Todolist(props: PropsType) {
@@ -35,7 +37,7 @@ export function Todolist(props: PropsType) {
             return;
         }else {
             /*setError("Field should not be empty")*/
-            props.addTask(title.trim())
+            props.addTask(props.todolistId,title.trim())
 
             setTitle('')
         }
@@ -43,14 +45,16 @@ export function Todolist(props: PropsType) {
 
     }
     const changeFilterHandler = (v: FilterType) => {
-        props.changeFilter(v)
+        props.changeFilter(v, props.todolistId)
     }
+
+
     const mappedTasks = props.tasks.map((el) => {
         const deleteTaskHandler = () => {
-            props.deleteTask(el.id)
+            props.deleteTask(el.id, props.todolistId)
         }
         const changeIsDoneHandler=(event: ChangeEvent<HTMLInputElement>)=>{
-                props.changeStatus(el.id, event.currentTarget.checked)
+                props.changeStatus(props.todolistId, el.id, event.currentTarget.checked)
 
         }
         return (
@@ -63,7 +67,10 @@ export function Todolist(props: PropsType) {
     })
 
     return <div>
-        <h3>{props.title}</h3>
+        <h3>
+            {props.title}
+            <Button name={"Delete list"} callBack={()=>props.deleteTodolist(props.todolistId)}/>
+        </h3>
         <div>
             <input onChange={onChangeHandler} value={title} onKeyDown={onKeyDownHandler} className={error ? "error" : ""}/>
             <Button name={'+'} callBack={addTaskHandler}/>
