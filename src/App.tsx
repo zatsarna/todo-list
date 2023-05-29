@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './App.css';
 import {TaskType, Todolist} from './Todolist';
 import {v1} from 'uuid';
+import {ButtonAndInput} from './components/ButtonAndInput';
 
 export type FilterType = 'all' | 'active' | 'completed'
 type todolistsType = { id: string, title: string, filter: FilterType }
@@ -69,10 +70,23 @@ const deleteTodolist=(todolistID: string)=>{
     setTodolists(todolists.filter(el => el.id!==todolistID))
      delete tasks[todolistID]
 }
+const addTodoList =(todoListTitle: string)=>{
+        const newTLID=v1()
+    const newTL: todolistsType={id: newTLID, title: todoListTitle, filter: 'all'}
+    setTodolists([...todolists, newTL])
+    setTasks({...tasks, [newTLID]: []})
+}
+const updateTasks=(todolistID: string, taskID: string, updatedTitle: string)=>{
+    setTasks({...tasks, [todolistID]: tasks[todolistID].map(t =>t.id===taskID ? {...t, title: updatedTitle}:t)})
+}
 
+    function updateTodolistTitle(todolistID:string, updatedTitle:string) {
+        setTodolists(todolists.map(tl => tl.id===todolistID ? {...tl, title: updatedTitle}:tl))
+    }
 
     return (
         <div className="App">
+            <ButtonAndInput  callback={addTodoList}/>
             {todolists.map(el => {
                 let tasksForTodoList = tasks[el.id]
                 if (el.filter === 'active') {
@@ -89,6 +103,8 @@ const deleteTodolist=(todolistID: string)=>{
                               key={el.id}
                               todolistId={el.id}
                               deleteTodolist={deleteTodolist}
+                              updateTasks={updateTasks}
+                              updateTodolistTitle={updateTodolistTitle}
                     />
                 )
             })}
