@@ -1,27 +1,27 @@
 
 .App {
-  padding: 30px;
+  /*
   display: flex;
   align-items: flex-start;
-  gap: 10px;
+  gap: 10px;*/
 
 }
 
-.App > div {
+/*.App > div {
   margin-right: 50px;
-}
+}*/
 
-.error {
+/*.error {
   border: red 3px solid;
-}
+}*/
 
-.errorMessage {
+/*.errorMessage {
   color: red;
-}
+}*/
 
-.activeFilter {
+/*.activeFilter {
   background-color: aquamarine;
-}
+}*/
 
 .isDone {
   opacity: 0.5;
