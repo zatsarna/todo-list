@@ -85,12 +85,12 @@ const deleteTodolist=(todolistID: string)=>{
 }
 
 const addTodoList =(todoListTitle: string)=>{
-
+    const newTLID=v1()
        /* const newTLID=v1()
     const newTL: todolistsType={id: newTLID, title: todoListTitle, filter: 'all'}
     setTodolists([...todolists, newTL])
     setTasks({...tasks, [newTLID]: []})*/
-    dispatchTodolists(addTodolistAC(todoListTitle))
+    dispatchTodolists(addTodolistAC(todoListTitle, newTLID))
     //dispatchTasks(tasksForNewTodolistAC(newTLID))
 }
 const updateTasks=(todolistID: string, taskID: string, updatedTitle: string)=>{

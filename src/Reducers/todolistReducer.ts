@@ -13,8 +13,8 @@ export const todolistsReducer =(todolists: todolistsType[], action: CommonTodoli
             return todolists.map(tl => tl.id===action.payload.ID ? {...tl, filter: action.payload.value}:tl)
         }
         case 'AddTodolist':{
-            const newTLID=v1()
-            const newTL: todolistsType={id: newTLID, title: action.payload.todoListTitle, filter: 'all'}
+
+            const newTL: todolistsType={id: action.payload.newTLID, title: action.payload.todoListTitle, filter: 'all'}
             return [newTL,...todolists]
         }
         default: return todolists
@@ -46,11 +46,12 @@ export const changeFilterAC = (value: FilterType, ID: string)=>{
     } as const
 }
 export type addTodolistACType=ReturnType<typeof addTodolistAC>
-export const addTodolistAC = (todoListTitle: string)=>{
+export const addTodolistAC = (todoListTitle: string, newTLID: string)=>{
     return {
         type: "AddTodolist",
         payload: {
-            todoListTitle
+            todoListTitle,
+            newTLID
         }
     } as const
 }
