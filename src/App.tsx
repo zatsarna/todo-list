@@ -91,7 +91,7 @@ const addTodoList =(todoListTitle: string)=>{
     setTodolists([...todolists, newTL])
     setTasks({...tasks, [newTLID]: []})*/
     dispatchTodolists(addTodolistAC(todoListTitle, newTLID))
-    //dispatchTasks(tasksForNewTodolistAC(newTLID))
+    dispatchTasks(tasksForNewTodolistAC(newTLID))
 }
 const updateTasks=(todolistID: string, taskID: string, updatedTitle: string)=>{
    /* setTasks({...tasks, [todolistID]: tasks[todolistID].map(t =>t.id===taskID ? {...t, title: updatedTitle}:t)})*/
@@ -120,13 +120,13 @@ const updateTasks=(todolistID: string, taskID: string, updatedTitle: string)=>{
                             tasksForTodoList = tasks[el.id].filter(e => e.isDone)
                         }
                         return (
-                            <Grid item>
+                            <Grid item key={el.id}>
                                 <Paper elevation={3} style={{padding: '15px'}}>
                                 <Todolist title={el.title} tasks={tasksForTodoList} deleteTask={deleteTask}
                                           changeFilter={changeFilter} addTask={addTask}
                                           changeStatus={changeStatus}
                                           filter={el.filter}
-                                          key={el.id}
+
                                           todolistId={el.id}
                                           deleteTodolist={deleteTodolist}
                                           updateTasks={updateTasks}
