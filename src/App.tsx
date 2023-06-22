@@ -18,7 +18,6 @@ import {
     addTaskAC,
     changeTaskStatusAC,
     deleteTaskAC,
-    tasksForNewTodolistAC,
     tasksReducer,
     updateTaskAC
 } from './Reducers/tasksReducer';
@@ -91,7 +90,7 @@ const addTodoList =(todoListTitle: string)=>{
     setTodolists([...todolists, newTL])
     setTasks({...tasks, [newTLID]: []})*/
     dispatchTodolists(addTodolistAC(todoListTitle, newTLID))
-    dispatchTasks(tasksForNewTodolistAC(newTLID))
+    dispatchTasks(addTodolistAC(todoListTitle, newTLID))
 }
 const updateTasks=(todolistID: string, taskID: string, updatedTitle: string)=>{
    /* setTasks({...tasks, [todolistID]: tasks[todolistID].map(t =>t.id===taskID ? {...t, title: updatedTitle}:t)})*/

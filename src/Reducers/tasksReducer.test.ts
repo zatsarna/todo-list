@@ -88,8 +88,7 @@ test('update task title', ()=>{
     const action:updateTaskACType=updateTaskAC('todolistID2','2', 'NewTitle***')
     const endState: tasksObjectType=tasksReducer(startState, action)
 
-    expect(endState['todolistID1'][1].isDone).toBe(true)
-    expect(endState['todolistID2'][1].isDone).toBe(false)
-
-
+    expect(endState['todolistID1'][1].title).toBe('JS')
+    expect(endState['todolistID2'][1].title).toBe('NewTitle***')
 })
+

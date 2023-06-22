@@ -1,5 +1,6 @@
 import {tasksObjectType} from '../App';
 import {v1} from 'uuid';
+import {addTodolistAC, addTodolistACType} from './todolistReducer';
 
 
 export const tasksReducer =(tasks: tasksObjectType, action: CommonTasksType): tasksObjectType =>{
@@ -17,13 +18,13 @@ export const tasksReducer =(tasks: tasksObjectType, action: CommonTasksType): ta
         case 'updateTask': {
             return {...tasks, [action.payload.todolistID]: tasks[action.payload.todolistID].map(t => t.id===action.payload.taskID ? {...t, title: action.payload.updatedTitle}:t)}
         }
-        case 'tasksForNewTodolist': {
-            return {...tasks, [action.payload.todolistID]: []}
+        case 'AddTodolist': {
+            return {...tasks, [action.payload.newTLID]: []}
         }
         default: return tasks
     }
 }
-export type CommonTasksType=changeTaskStatusACType | addTaskACType | deleteTaskACType | updateTaskACType | tasksForNewTodolistACType
+export type CommonTasksType=changeTaskStatusACType | addTaskACType | deleteTaskACType | updateTaskACType | addTodolistACType
 export type changeTaskStatusACType=ReturnType<typeof changeTaskStatusAC>
 export const changeTaskStatusAC=(todolistID: string, taskID: string, isChecked: boolean)=>{
     return {
@@ -54,10 +55,11 @@ export const updateTaskAC=(todolistID: string, taskID: string, updatedTitle: str
         payload: {todolistID, taskID, updatedTitle}
     } as const
 }
-export type tasksForNewTodolistACType = ReturnType<typeof tasksForNewTodolistAC>
+/*export type tasksForNewTodolistACType = ReturnType<typeof tasksForNewTodolistAC>*/
+/*
 export const tasksForNewTodolistAC=(todolistID:string)=>{
     return {
         type: "tasksForNewTodolist",
         payload: {todolistID}
     } as const
-}
+}*/
