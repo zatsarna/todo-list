@@ -46,12 +46,12 @@ export const changeFilterAC = (value: FilterType, ID: string)=>{
     } as const
 }
 export type addTodolistACType=ReturnType<typeof addTodolistAC>
-export const addTodolistAC = (todoListTitle: string, newTLID: string)=>{
+export const addTodolistAC = (todoListTitle: string)=>{
     return {
         type: "AddTodolist",
         payload: {
             todoListTitle,
-            newTLID
+            newTLID: v1()
         }
     } as const
 }

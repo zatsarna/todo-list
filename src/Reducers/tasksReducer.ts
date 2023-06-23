@@ -1,6 +1,6 @@
 import {tasksObjectType} from '../App';
 import {v1} from 'uuid';
-import {addTodolistAC, addTodolistACType} from './todolistReducer';
+import {addTodolistAC, addTodolistACType, deleteTodolistACType} from './todolistReducer';
 
 
 export const tasksReducer =(tasks: tasksObjectType, action: CommonTasksType): tasksObjectType =>{
@@ -21,10 +21,15 @@ export const tasksReducer =(tasks: tasksObjectType, action: CommonTasksType): ta
         case 'AddTodolist': {
             return {...tasks, [action.payload.newTLID]: []}
         }
+        case 'DeleteTodolist': {
+            const copyTasks={...tasks}
+            delete copyTasks[action.payload.todolistID]
+            return copyTasks
+        }
         default: return tasks
     }
 }
-export type CommonTasksType=changeTaskStatusACType | addTaskACType | deleteTaskACType | updateTaskACType | addTodolistACType
+export type CommonTasksType=changeTaskStatusACType | addTaskACType | deleteTaskACType | updateTaskACType | addTodolistACType | deleteTodolistACType
 export type changeTaskStatusACType=ReturnType<typeof changeTaskStatusAC>
 export const changeTaskStatusAC=(todolistID: string, taskID: string, isChecked: boolean)=>{
     return {

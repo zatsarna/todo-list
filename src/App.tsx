@@ -89,8 +89,8 @@ const addTodoList =(todoListTitle: string)=>{
     const newTL: todolistsType={id: newTLID, title: todoListTitle, filter: 'all'}
     setTodolists([...todolists, newTL])
     setTasks({...tasks, [newTLID]: []})*/
-    dispatchTodolists(addTodolistAC(todoListTitle, newTLID))
-    dispatchTasks(addTodolistAC(todoListTitle, newTLID))
+    dispatchTodolists(addTodolistAC(todoListTitle))
+    dispatchTasks(addTodolistAC(todoListTitle))
 }
 const updateTasks=(todolistID: string, taskID: string, updatedTitle: string)=>{
    /* setTasks({...tasks, [todolistID]: tasks[todolistID].map(t =>t.id===taskID ? {...t, title: updatedTitle}:t)})*/
