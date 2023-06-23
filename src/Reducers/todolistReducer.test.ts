@@ -5,7 +5,7 @@ import {
     todolistsReducer,
     updateTodolistTitleAC
 } from './todolistReducer';
-import {FilterType, todolistsType} from '../App';
+import {FilterType, todolistsType} from '../AppWithRedux';
 
 
 test("correct todolist should be removed", ()=> {
@@ -31,7 +31,7 @@ test("correct todolist should be added", ()=> {
         {id: todolistID1, title: 'What to learn', filter: 'all'},
         {id: todolistID2, title: 'What to buy', filter: 'all'},
     ]
-    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle,newTLID))
+    const endState = todolistsReducer(startState, addTodolistAC(newTodolistTitle))
     expect(endState.length).toBe(3)
     expect(endState[0].title).toBe(newTodolistTitle)
 })

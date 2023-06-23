@@ -1,7 +1,11 @@
-import {FilterType, todolistsType} from '../App';
+import {FilterType, todolistsType} from '../AppWithRedux';
 import {v1} from 'uuid';
 
-export const todolistsReducer =(todolists: todolistsType[], action: CommonTodolistType): todolistsType[] =>{
+export let todolistID1 = v1()
+export let todolistID2 = v1()
+
+const initialState: todolistsType[]=[]
+export const todolistsReducer =(todolists: todolistsType[] =initialState, action: CommonTodolistType): todolistsType[] =>{
     switch (action.type){
         case 'DeleteTodolist': {
             return todolists.filter(el => el.id!==action.payload.todolistID)

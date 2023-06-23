@@ -1,5 +1,4 @@
 import {v1} from 'uuid';
-import {tasksObjectType} from '../App';
 import {
     addTaskAC,
     addTaskACType,
@@ -9,6 +8,7 @@ import {
     tasksReducer, updateTaskAC, updateTaskACType
 } from './tasksReducer';
 import {addTodolistAC, addTodolistACType, deleteTodolistAC} from './todolistReducer';
+import {tasksObjectType} from '../AppWithRedux';
 
 test('delete corresponding task', ()=>{
     const startState: tasksObjectType={
@@ -106,7 +106,8 @@ test('empty array should be added when a new todolist was added', ()=>{
             {id: '3', title: 'ReactJS2', isDone: false},
         ]
     }
-    const action:addTodolistACType=addTodolistAC('NewTodolist**' )
+
+    const action:addTodolistACType=addTodolistAC('NewTodolist**')
     const endState: tasksObjectType=tasksReducer(startState, action)
 
     const keys: string[]=Object.keys(endState)
