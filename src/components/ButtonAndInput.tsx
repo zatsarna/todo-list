@@ -4,7 +4,8 @@ import TextField from '@mui/material/TextField';
 type PropsType={
     callback: (title: string) => void
 }
-export const ButtonAndInput = (props: PropsType) => {
+export const ButtonAndInput =React.memo( (props: PropsType) => {
+    console.log("button and input")
     let [title, setTitle] = useState('')
     const [error, setError]=useState<null | string>(null)
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -44,5 +45,5 @@ export const ButtonAndInput = (props: PropsType) => {
         </div>
 
     );
-};
+})
 
