@@ -3,7 +3,7 @@ import React, {ChangeEvent, useState} from 'react';
      oldTitle: string
      calback: (updatedTitle: string)=>void
  }
-export const EditableSpan = (props: SpanPropsType) => {
+export const EditableSpan =React.memo((props: SpanPropsType) => {
      const [edit, setEdit]=useState(false)
     let [updatedTitle, setUpdatedTitle] = useState(props.oldTitle)
     function editHandler() {
@@ -25,5 +25,5 @@ export const EditableSpan = (props: SpanPropsType) => {
             :
         <span onDoubleClick={editHandler}>{props.oldTitle}</span>
     );
-};
+})
 

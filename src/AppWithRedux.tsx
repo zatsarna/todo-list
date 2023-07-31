@@ -44,19 +44,19 @@ console.log("App with redux")
     const deleteTask = (taskId: string, todolistID: string) => {
         dispatch(deleteTaskAC(taskId, todolistID))
     }*/
-    const changeFilter = (value: FilterType, ID: string) => {
+    const changeFilter = useCallback((value: FilterType, ID: string) => {
         dispatch(changeFilterAC(value, ID))
-    }
-    const deleteTodolist = (todolistID: string) => {
+    },[dispatch])
+    const deleteTodolist =useCallback( (todolistID: string) => {
         dispatch(deleteTodolistAC(todolistID))
-    }
+    },[dispatch])
     const addTodoList =useCallback( (todoListTitle: string) => {
         const action=addTodolistAC(todoListTitle)
         dispatch(action)
-    }, [])
-    function updateTodolistTitle(todolistID: string, updatedTitle: string) {
+    }, [dispatch])
+    const updateTodolistTitle=useCallback((todolistID: string, updatedTitle: string)=> {
         dispatch(updateTodolistTitleAC(todolistID, updatedTitle))
-    }
+    },[dispatch])
     return (
         <div className="App">
             <ButtonAppBar/>
