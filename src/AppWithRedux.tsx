@@ -28,7 +28,7 @@ export type todolistsType = { id: string, title: string, filter: FilterType }
 export type tasksObjectType = {
     [key: string]: Array<TaskType>,
 }
-function AppWithRedux() {
+export function AppWithRedux() {
 console.log("App with redux")
     const dispatch=useDispatch()
     const todolists=useSelector<AppRootStateType, todolistsType[]>(state =>state.todolists)
