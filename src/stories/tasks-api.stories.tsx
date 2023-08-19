@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {tasksAPI} from '../api/tasks-api';
-
+import {tasksAPI, UpdateTaskType} from '../api/tasks-api';
 export default {
     title: 'API Tasks'
 }
@@ -12,15 +11,17 @@ const settings = {
 }
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const todolistId = '3f46ac61-f3e0-4236-af3e-fe1c2bc88427'
-
+    const [todolistId, setTodolistId] = useState< string>('')
+    function getTasks() {
         tasksAPI.getTasks(todolistId).then(res => {
-            setState(res.data.items)
+            setState(res.data)
         })
+    }
 
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    return <div>{JSON.stringify(state)}
+        <input placeholder={'todolistId'} value={todolistId} onChange={(event)=>{setTodolistId(event.currentTarget.value)}}/>
+        <button onClick={getTasks}>Get tasks</button>
+    </div>
 }
 export const DeleteTask = () => {
     const [state, setState] = useState<any>(null)
@@ -32,35 +33,45 @@ export const DeleteTask = () => {
         }).catch(err => setState(err.message))
     }
     return <div>{JSON.stringify(state)}
-        <input placeholder={'todolistId'} value={taskId} onChange={(event)=>{setTodolistId(event.currentTarget.value)}}/>
-        <input placeholder={'taskId'} value={todolistId} onChange={(event)=>setTaskId(event.currentTarget.value)}/>
+        <input placeholder={'todolistId'} value={todolistId} onChange={(event)=>{setTodolistId(event.currentTarget.value)}}/>
+        <input placeholder={'taskId'} value={taskId} onChange={(event)=>setTaskId(event.currentTarget.value)}/>
         <button onClick={deleteTask}>Delete task</button>
     </div>
 }
 export const CreateTask = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const todolistId = '3f46ac61-f3e0-4236-af3e-fe1c2bc88427'
-        const taskTitle='HaHa'
+    const [taskTitle, setTaskTitle] = useState< string>('')
+    const [todolistId, setTodolistId] = useState< string>('')
+    function createTask() {
         tasksAPI.createTask(todolistId, taskTitle).then(res => {
             setState(res.data)
         }).catch(err => setState(err.message))
+        setTaskTitle('')
+    }
 
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    return <div>{JSON.stringify(state)}
+        <input placeholder={'todolistId'} value={todolistId} onChange={(event)=>{setTodolistId(event.currentTarget.value)}}/>
+        <input placeholder={'task Title'} value={taskTitle} onChange={(event)=>setTaskTitle(event.currentTarget.value)}/>
+        <button onClick={createTask}>Create task</button>
+    </div>
 }
 export const UpdateTask = () => {
     const [state, setState] = useState<any>(null)
-    useEffect(() => {
-        const todolistId = '3f46ac61-f3e0-4236-af3e-fe1c2bc88427'
-        const taskTitle={title: 'hi', description: 'aa', status: 1, priority: 1, startDate: '2023-08-19T01:36:34.6611636Z', deadline: '2023-08-29T01:36:34.6611636Z'}
-        const taskId='d562d9e7-c0df-4b78-b7b2-82e3a03c9c11'
+    const [todolistId, setTodolistId] = useState< string>('')
+    const [taskId, setTaskId] = useState< string>('')
+    const [taskTitle, setTaskTitle] = useState< UpdateTaskType>({title: '', description: '', status: 1, priority: 1, startDate: '', deadline: ''})
+    function updateTask() {
         tasksAPI.updateTask(todolistId, taskId,taskTitle).then(res => {
             setState(res.data)
         }).catch(err => setState(err.message))
+    }
 
-    }, [])
-    return <div>{JSON.stringify(state)}</div>
+    return <div>{JSON.stringify(state)}
+        <input placeholder={'todolistId'} value={todolistId} onChange={(event)=>{setTodolistId(event.currentTarget.value)}}/>
+        <input placeholder={'taskId'} value={taskId} onChange={(event)=>{setTaskId(event.currentTarget.value)}}/>
+        <input placeholder={'task Title'} value={taskTitle.title} onChange={(event)=>setTaskTitle({...taskTitle, title: event.currentTarget.value})}/>
+        <button onClick={updateTask}>Update task</button>
+    </div>
 }
 
 

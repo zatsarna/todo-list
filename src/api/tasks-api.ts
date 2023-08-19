@@ -1,6 +1,5 @@
 import axios from 'axios';
 import {ResponceType} from './todolists-api';
-
 export const instance=axios.create({
     baseURL: 'https://social-network.samuraijs.com/api/1.1/',
     withCredentials: true,
@@ -22,7 +21,7 @@ type TaskType={
     order: number,
     addedDate: string
 }
-type UpdateTaskType={
+export type UpdateTaskType={
     description: string,
     title: string
     status: number,
@@ -44,7 +43,7 @@ export const tasksAPI = {
         return instance.delete<ResponceType>(`todo-lists/${todolistId}/tasks/${taskId}`)
     },
     createTask(todolistId: string, taskTitle: string) {
-        return instance.post<ResponceType>(`todo-lists/${todolistId}/tasks/`, {title: taskTitle})
+        return instance.post<ResponceType<TaskType>>(`todo-lists/${todolistId}/tasks/`, {title: taskTitle})
     },
     updateTask(todolistId: string, taskId: string, model: UpdateTaskType) {
         return instance.put<ResponceType>(`todo-lists/${todolistId}/tasks/${taskId}`, model)
