@@ -5,7 +5,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SuperCheckBox from './components/SuperCheckBox';
 import {EditableSpan} from './components/EditableSpan';
 import React, {useCallback} from 'react';
-import {TaskType} from './Todolist';
+import {TaskStatuses, TaskType} from './api/tasks-api';
+
 
 export type TaskPropsType = {
     todolistId: string,
@@ -29,15 +30,15 @@ export const Task = React.memo((props: TaskPropsType) => {
 const updateEditableSpan=useCallback((updatedTitle: string) => dispatch(updateTaskAC(props.todolistId, props.el.id, updatedTitle)),[props.el.id, props.todolistId, dispatch])
 
     return (
-        <li key={props.el.id} className={(props.el.isDone) ? 'isDone' : ''}>
+        <li key={props.el.id} className={(props.el.status===TaskStatuses.Completed) ? 'isDone' : ''}>
             {/*<button onClick={deleteTaskHandler}>X</button>*/}
             <IconButton aria-label="delete" onClick={deleteTaskHandler}>
                 <DeleteIcon/>
             </IconButton>
             {/* <input type="checkbox" onChange={changeIsDoneHandler} checked={el.isDone}/>*/}
             {/*<Checkbox   color="success" onChange={changeIsDoneHandler} checked={el.isDone}/>*/}
-            <SuperCheckBox isDone={props.el.isDone} color={'primary'}
-                           callback={(checked) => changeStatusHandler(props.el.id, checked)}/>
+            <SuperCheckBox checked={props.el.status===TaskStatuses.Completed} color={'primary'}
+                           callback={(checked: boolean) => changeStatusHandler(props.el.id, checked )}/>
             <EditableSpan oldTitle={props.el.title}
                           calback={updateEditableSpan}/>
         </li>

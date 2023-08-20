@@ -7,13 +7,25 @@ export const instance=axios.create({
         'API-KEY': 'e56039dc-1bc5-46ae-a274-05b570794f8e'
     }
 })
-
-type TaskType={
+export enum TaskPriorities {
+    Low=0,
+    Middle=1,
+    High=2,
+    Urgently=3,
+    Later=4
+}
+export enum TaskStatuses {
+    New=0,
+    InProgress=1,
+    Completed=2,
+    Draft=3
+}
+export type TaskType={
     description: string,
     title: string
     completed: boolean,
-    status: number,
-    priority: number,
+    status: TaskStatuses,
+    priority: TaskPriorities,
     startDate: string,
     deadline: string,
     id: string,

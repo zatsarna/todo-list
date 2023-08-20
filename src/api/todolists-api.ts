@@ -1,7 +1,7 @@
 
 import {instance} from './tasks-api';
 
-type TodolistType = {
+export type TodolistType = {
     id: string,
     title: string,
     addedDate: string,

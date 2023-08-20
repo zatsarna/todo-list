@@ -1,6 +1,7 @@
-import {tasksObjectType} from '../AppWithRedux';
 import {v1} from 'uuid';
-import {addTodolistAC, addTodolistACType, deleteTodolistACType} from './todolistReducer';
+import {addTodolistACType, deleteTodolistACType} from './todolistReducer';
+import {TaskPriorities, TaskStatuses, TaskType} from '../api/tasks-api';
+import {tasksObjectType} from '../AppWithRedux';
 
 const initialState: tasksObjectType={}
 export const tasksReducer = (tasks: tasksObjectType =initialState, action: CommonTasksType): tasksObjectType => {
@@ -10,12 +11,12 @@ export const tasksReducer = (tasks: tasksObjectType =initialState, action: Commo
                 ...tasks,
                 [action.payload.todolistID]: tasks[action.payload.todolistID].map(t => t.id === action.payload.taskID ? {
                     ...t,
-                    isDone: action.payload.isChecked
+                    status: action.payload.isChecked ? TaskStatuses.Completed : TaskStatuses.New
                 } : t)
             }
         }
         case 'AddTask': {
-            let newTask = {id: v1(), title: action.payload.title, isDone: false}
+            let newTask: TaskType = {id: v1(), title: action.payload.title, completed: false, description: '', status: TaskStatuses.New, priority: TaskPriorities.Low, startDate: '', deadline: '', todoListId: action.payload.todolistID, order: 1, addedDate: ''}
             return {...tasks, [action.payload.todolistID]: [newTask, ...tasks[action.payload.todolistID]]}
         }
         case 'deleteTask': {

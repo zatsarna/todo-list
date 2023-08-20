@@ -5,10 +5,9 @@ import {action} from '@storybook/addon-actions'
 import {Provider, useSelector} from 'react-redux';
 import {AppRootStateType, store} from './Reducers/store';
 import {ReduxStoreProviderDecorator} from './stories/ReduxStoreProviderDecorator';
-import {TaskType} from './Todolist';
-import {CommonTodolistType} from './Reducers/todolistReducer';
-import {todolistsType} from './AppWithRedux';
+import {CommonTodolistType, TodolistDomainType} from './Reducers/todolistReducer';
 import {Story} from '@storybook/react';
+import {TaskType} from './api/tasks-api';
 export default {
     title: 'TODO/Task stories',
     component: Task,
@@ -17,7 +16,7 @@ export default {
 }
 
 const TaskWrapper=()=>{
-    const todolist=useSelector<AppRootStateType, todolistsType>(store =>store.todolists[0])
+    const todolist=useSelector<AppRootStateType, TodolistDomainType>(store =>store.todolists[0])
     const tasks=useSelector<AppRootStateType, TaskType[]>(store => store.tasks['todolistId1'])
     return <>
         <Task todolistId={todolist.id} el={tasks[0]}/>
