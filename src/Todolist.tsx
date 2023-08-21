@@ -1,5 +1,5 @@
 import React, {useCallback} from 'react';
-import {ButtonAndInput} from './components/ButtonAndInput';
+import {ButtonAndInput} from './components/ButtonAndInput/ButtonAndInput';
 import {EditableSpan} from './components/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
@@ -10,6 +10,8 @@ import {AppRootStateType} from './Reducers/store';
 import {Task} from './Task';
 import {TaskStatuses, TaskType} from './api/tasks-api';
 import {FilterType} from './Reducers/todolistReducer';
+import {tasksObjectType} from './App/AppWithRedux';
+import {useTasks} from './App/hooks/UseTasks';
 
 /*export type TaskType = {
     id: string
@@ -24,12 +26,14 @@ type PropsType = {
     todolistId: string
     deleteTodolist: (todolistID: string) => void
     updateTodolistTitle: (todolistID: string, updatedTitle: string) => void
+
 }
 
 export const Todolist =React.memo(function (props: PropsType) {
     console.log("todolist")
-    const tasks=useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.todolistId])
-    const dispatch=useDispatch()
+const {tasks, addTaskHandler}=useTasks(props.todolistId)
+/*    const tasks=useSelector<AppRootStateType, TaskType[]>(state => state.tasks[props.todolistId])*/
+    //const dispatch=useDispatch()
 
     let allTodolistTasks=tasks
     let tasksForTodoList: TaskType[] = allTodolistTasks
@@ -42,10 +46,10 @@ export const Todolist =React.memo(function (props: PropsType) {
 
     const mappedTasks = tasksForTodoList.map((el) => <Task todolistId={props.todolistId} el={el} key={el.id}/>)
 
-   const addTaskHandler=useCallback((title: string)=> {
+ /*  const addTaskHandler=useCallback((title: string)=> {
         dispatch(addTaskAC(props.todolistId, title))
         //props.addTask(props.todolistId, title)
-    },[props.todolistId, dispatch])
+    },[props.todolistId, dispatch])*/
 
     const updateTodolistTitleHandler = useCallback((updatedTitle: string) => {props.updateTodolistTitle(props.todolistId, updatedTitle)},[props.updateTodolistTitle, props.todolistId])
 

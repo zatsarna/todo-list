@@ -10,7 +10,7 @@ import {
     updateTaskACType
 } from './tasksReducer';
 import {addTodolistAC, addTodolistACType, deleteTodolistAC} from './todolistReducer';
-import {tasksObjectType} from '../AppWithRedux';
+import {tasksObjectType} from '../App/AppWithRedux';
 import {TaskPriorities, TaskStatuses} from '../api/tasks-api';
 
 test('delete corresponding task', ()=>{

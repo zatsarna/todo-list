@@ -6,6 +6,7 @@ import SuperCheckBox from './components/SuperCheckBox';
 import {EditableSpan} from './components/EditableSpan';
 import React, {useCallback} from 'react';
 import {TaskStatuses, TaskType} from './api/tasks-api';
+import {useTask, useTasks} from './App/hooks/UseTasks';
 
 
 export type TaskPropsType = {
@@ -15,8 +16,9 @@ export type TaskPropsType = {
 }
 export const Task = React.memo((props: TaskPropsType) => {
     console.log("task")
-    const dispatch = useDispatch()
-    const changeStatusHandler = (elId: string, checked: boolean) => {
+    const { changeStatusHandler, deleteTaskHandler, updateEditableSpan}=useTask(props.todolistId, props.el.id)
+    /*const dispatch = useDispatch()*/
+/*    const changeStatusHandler = (elId: string, checked: boolean) => {
         dispatch(changeTaskStatusAC(props.todolistId, elId, checked))
         //props.changeStatus(props.todolistId, elId, checked)
     }
@@ -24,10 +26,10 @@ export const Task = React.memo((props: TaskPropsType) => {
         dispatch(deleteTaskAC(props.el.id, props.todolistId))
         //props.deleteTask(el.id, props.todolistId)
     }
-    /* const changeIsDoneHandler=(checked: boolean)=>{
+    /!* const changeIsDoneHandler=(checked: boolean)=>{
              props.changeStatus(props.todolistId, el.id, checked)
-     }*/
-const updateEditableSpan=useCallback((updatedTitle: string) => dispatch(updateTaskAC(props.todolistId, props.el.id, updatedTitle)),[props.el.id, props.todolistId, dispatch])
+     }*!/
+const updateEditableSpan=useCallback((updatedTitle: string) => dispatch(updateTaskAC(props.todolistId, props.el.id, updatedTitle)),[props.el.id, props.todolistId, dispatch])*/
 
     return (
         <li key={props.el.id} className={(props.el.status===TaskStatuses.Completed) ? 'isDone' : ''}>

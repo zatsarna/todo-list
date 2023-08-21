@@ -1,44 +1,44 @@
-import React, {useCallback, useReducer, useState} from 'react';
+import React, {useCallback} from 'react';
 import './App.css';
-import { Todolist} from './Todolist';
-import {ButtonAndInput} from './components/ButtonAndInput';
-import ButtonAppBar from './components/AppBar';
+import {Todolist} from '../Todolist';
+import {ButtonAndInput} from '../components/ButtonAndInput/ButtonAndInput';
+import ButtonAppBar from '../components/AppBar';
 import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import {
     addTodolistAC,
     changeFilterAC,
-    deleteTodolistAC, FilterType, TodolistDomainType,
+    deleteTodolistAC,
+    FilterType,
     updateTodolistTitleAC
-} from './Reducers/todolistReducer';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from './Reducers/store';
-import {TaskType} from './api/tasks-api';
+} from '../Reducers/todolistReducer';
+import {useDispatch} from 'react-redux';
+import {TaskType} from '../api/tasks-api';
+import {useTodolist} from './hooks/UseTodolists';
 
-
-//export type todolistsType = { id: string, title: string, filter: FilterType }
 export type tasksObjectType = {
     [key: string]: Array<TaskType>,
 }
+
 export function AppWithRedux() {
 console.log("App with redux")
-    const dispatch=useDispatch()
-    const todolists=useSelector<AppRootStateType, TodolistDomainType[]>(state =>state.todolists)
-
-    const changeFilter = useCallback((value: FilterType, ID: string) => {
+    //const dispatch=useDispatch()
+    /*const todolists=useSelector<AppRootStateType, TodolistDomainType[]>(state =>state.todolists)*/
+    const {todolists, changeFilter, deleteTodolist, addTodoList, updateTodolistTitle}=useTodolist()
+/*    const changeFilter = useCallback((value: FilterType, ID: string) => {
         dispatch(changeFilterAC(value, ID))
-    },[dispatch])
-    const deleteTodolist =useCallback( (todolistID: string) => {
+    },[dispatch])*/
+/*    const deleteTodolist =useCallback( (todolistID: string) => {
         dispatch(deleteTodolistAC(todolistID))
-    },[dispatch])
-    const addTodoList =useCallback( (todoListTitle: string) => {
+    },[dispatch])*/
+/*    const addTodoList =useCallback( (todoListTitle: string) => {
         const action=addTodolistAC(todoListTitle)
         dispatch(action)
-    }, [dispatch])
-    const updateTodolistTitle=useCallback((todolistID: string, updatedTitle: string)=> {
+    }, [dispatch])*/
+/*    const updateTodolistTitle=useCallback((todolistID: string, updatedTitle: string)=> {
         dispatch(updateTodolistTitleAC(todolistID, updatedTitle))
-    },[dispatch])
+    },[dispatch])*/
     return (
         <div className="App">
             <ButtonAppBar/>
@@ -58,6 +58,7 @@ console.log("App with redux")
                                               todolistId={el.id}
                                               deleteTodolist={deleteTodolist}
                                               updateTodolistTitle={updateTodolistTitle}
+
                                     />
                                 </Paper>
                             </Grid>

@@ -1,12 +1,14 @@
 import React, {ChangeEvent, KeyboardEvent, useState} from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
+import {useButtonAndInput} from './hooks/useButtonAndInput';
 type PropsType={
     callback: (title: string) => void
 }
 export const ButtonAndInput =React.memo( (props: PropsType) => {
     console.log("button and input")
-    let [title, setTitle] = useState('')
+    const {title, error, onChangeHandler, onKeyDownHandler, addTaskHandler}=useButtonAndInput(props.callback)
+    /*let [title, setTitle] = useState('')
     const [error, setError]=useState<null | string>(null)
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
         setTitle(event.currentTarget.value)
@@ -20,12 +22,12 @@ export const ButtonAndInput =React.memo( (props: PropsType) => {
             setError("Title is required")
             return;
         } else {
-            /*setError("Field should not be empty")*/
+            /!*setError("Field should not be empty")*!/
             props.callback(title.trim())
 
             setTitle('')
         }
-    }
+    }*/
     const muiButtonStyle={maxWidth: '30px', maxHeight: '30px', minWidth: '30px', minHeight: '30px'}
     return (
         <div>

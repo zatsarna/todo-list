@@ -1,7 +1,7 @@
 import {v1} from 'uuid';
 import {addTodolistACType, deleteTodolistACType} from './todolistReducer';
 import {TaskPriorities, TaskStatuses, TaskType} from '../api/tasks-api';
-import {tasksObjectType} from '../AppWithRedux';
+import {tasksObjectType} from '../App/AppWithRedux';
 
 const initialState: tasksObjectType={}
 export const tasksReducer = (tasks: tasksObjectType =initialState, action: CommonTasksType): tasksObjectType => {
