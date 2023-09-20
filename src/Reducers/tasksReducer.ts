@@ -1,7 +1,8 @@
 import {v1} from 'uuid';
-import {addTodolistACType, deleteTodolistACType} from './todolistReducer';
-import {TaskPriorities, TaskStatuses, TaskType} from '../api/tasks-api';
+import {addTodolistACType, deleteTodolistACType, SetTodolistsACType} from './todolistReducer';
+import {TaskPriorities, tasksAPI, TaskStatuses, TaskType} from '../api/tasks-api';
 import {tasksObjectType} from '../App/AppWithRedux';
+import {Dispatch} from 'redux';
 
 const initialState: tasksObjectType={}
 export const tasksReducer = (tasks: tasksObjectType =initialState, action: CommonTasksType): tasksObjectType => {
@@ -42,6 +43,14 @@ export const tasksReducer = (tasks: tasksObjectType =initialState, action: Commo
             delete copyTasks[action.payload.todolistID]
             return copyTasks
         }
+        case 'SET-TODOLISTS':{
+            const copyState={...tasks}
+            action.payload.todolists.forEach(el =>copyState[el.id]=[])
+            return copyState
+        }
+        case 'SET-TASKS': {
+            return {...tasks, [action.payload.todolistID]: action.payload.tasks}
+        }
         default:
             return tasks
     }
@@ -53,6 +62,8 @@ export type CommonTasksType =
     | updateTaskACType
     | addTodolistACType
     | deleteTodolistACType
+| SetTodolistsACType
+| setTasksACType
 export type changeTaskStatusACType = ReturnType<typeof changeTaskStatusAC>
 export const changeTaskStatusAC = (todolistID: string, taskID: string, isChecked: boolean) => {
     return {
@@ -83,6 +94,13 @@ export const updateTaskAC = (todolistID: string, taskID: string, updatedTitle: s
         payload: {todolistID, taskID, updatedTitle}
     } as const
 }
+export const setTasksAC = (todolistID: string, tasks: Array<TaskType>) => {
+    return {
+        type: 'SET-TASKS',
+        payload: {todolistID, tasks}
+    } as const
+}
+export type setTasksACType=ReturnType<typeof setTasksAC>
 /*export type tasksForNewTodolistACType = ReturnType<typeof tasksForNewTodolistAC>*/
 /*
 export const tasksForNewTodolistAC=(todolistID:string)=>{
@@ -91,3 +109,9 @@ export const tasksForNewTodolistAC=(todolistID:string)=>{
         payload: {todolistID}
     } as const
 }*/
+//ThunkCreator
+export const fetchTasksTC=(todolistID: string)=>{
+    return (dispatch: Dispatch)=>{
+        tasksAPI.getTasks(todolistID).then(res => dispatch(setTasksAC(todolistID, res.data.items)))
+    }
+}

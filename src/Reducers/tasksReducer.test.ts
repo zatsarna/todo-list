@@ -4,14 +4,15 @@ import {
     changeTaskStatusAC,
     changeTaskStatusACType,
     deleteTaskAC,
-    deleteTaskACType,
+    deleteTaskACType, setTasksAC,
     tasksReducer,
     updateTaskAC,
     updateTaskACType
 } from './tasksReducer';
-import {addTodolistAC, addTodolistACType, deleteTodolistAC} from './todolistReducer';
+import {addTodolistAC, addTodolistACType, deleteTodolistAC, SetTodolistsAC} from './todolistReducer';
 import {tasksObjectType} from '../App/AppWithRedux';
 import {TaskPriorities, TaskStatuses} from '../api/tasks-api';
+import {v1} from 'uuid';
 
 test('delete corresponding task', ()=>{
     const startState: tasksObjectType={
@@ -142,3 +143,30 @@ test('tasks that belong to removed todolist should be deleted', ()=>{
     expect(endState['todolistID2']).not.toBeDefined()
 })
 
+test('empty arrays should be added when we set todolists', ()=>{
+
+    const todolists = [
+        {id: '1', title: 'What to learn', addedDate: '', order: 1},
+        {id: '2', title: 'What to buy', addedDate: '', order: 1}
+    ]
+    const action=SetTodolistsAC(todolists)
+    const endState=tasksReducer({},action)
+    const keys=Object.keys(endState)
+    expect(keys.length).toBe(2)
+    expect(endState['2']).toStrictEqual([])
+    expect(endState['1']).toStrictEqual([])
+})
+test('tasks should be added for todolist', ()=>{
+
+    const tasks=[
+        {description: 'blabla', title: 'new task', completed: false, status: 0, priority: 0, startDate: '', deadline: '', id: '1_1', todoListId: '1', order: 1, addedDate: ''},
+        {description: 'blaggbla', title: 'new task2', completed: false, status: 0, priority: 0, startDate: '', deadline: '', id: '1_2', todoListId: '1', order: 1, addedDate: ''}
+    ]
+
+    const action=setTasksAC('1', tasks)
+    const endState=tasksReducer({'1': [], '2': []},action)
+
+    expect(endState['1'].length).toBe(2)
+    expect(endState['2'].length).toBe(0)
+
+})

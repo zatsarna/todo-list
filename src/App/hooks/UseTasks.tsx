@@ -1,8 +1,8 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../Reducers/store';
 import {TaskType} from '../../api/tasks-api';
-import {addTaskAC, changeTaskStatusAC, deleteTaskAC, updateTaskAC} from '../../Reducers/tasksReducer';
-import {useCallback} from 'react';
+import {addTaskAC, changeTaskStatusAC, deleteTaskAC, fetchTasksTC, updateTaskAC} from '../../Reducers/tasksReducer';
+import {useCallback, useEffect} from 'react';
 
 export function useTask(todolistId: string, taskId: string) {
     const dispatch = useDispatch()
@@ -25,6 +25,13 @@ export function useTask(todolistId: string, taskId: string) {
 export function useTasks(todolistId: string) {
     const dispatch = useDispatch()
     const tasks= useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolistId])
+
+    useEffect(()=>{
+
+        // @ts-ignore
+        dispatch(fetchTasksTC(todolistId))
+    },[])
+
     const addTaskHandler=useCallback((title: string)=> {
         dispatch(addTaskAC(todolistId, title))
         //props.addTask(props.todolistId, title)
