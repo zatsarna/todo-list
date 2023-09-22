@@ -1,24 +1,37 @@
 import {useDispatch, useSelector} from 'react-redux';
 import {AppRootStateType} from '../../Reducers/store';
-import {TaskType} from '../../api/tasks-api';
-import {addTaskAC, changeTaskStatusAC, deleteTaskAC, fetchTasksTC, updateTaskAC} from '../../Reducers/tasksReducer';
+import {tasksAPI, TaskStatuses, TaskType} from '../../api/tasks-api';
+import {
+    addTaskAC, addTaskTC,
+    changeTaskAC,
+    deleteTaskAC,
+    deleteTaskTC,
+    fetchTasksTC, updateTaskTC
+} from '../../Reducers/tasksReducer';
 import {useCallback, useEffect} from 'react';
 
 export function useTask(todolistId: string, taskId: string) {
     const dispatch = useDispatch()
-    const changeStatusHandler = (elId: string, checked: boolean) => {
-
-        dispatch(changeTaskStatusAC(todolistId, elId, checked))
+    const changeStatusHandler = (elId: string, status: TaskStatuses) => {
+// @ts-ignore
+        dispatch(updateTaskTC(todolistId, elId, {status:status}))
+        //dispatch(changeTaskStatusAC(todolistId, elId, checked))
         //props.changeStatus(props.todolistId, elId, checked)
     }
     const deleteTaskHandler = () => {
-        dispatch(deleteTaskAC(taskId, todolistId))
+        // @ts-ignore
+        dispatch(deleteTaskTC(todolistId,taskId))
+        /*tasksAPI.deleteTask(todolistId,taskId).then(
+            res => dispatch(deleteTaskAC(taskId, todolistId))
+        )*/
         //props.deleteTask(el.id, props.todolistId)
     }
     /* const changeIsDoneHandler=(checked: boolean)=>{
              props.changeStatus(props.todolistId, el.id, checked)
      }*/
-    const updateEditableSpan=useCallback((updatedTitle: string) => dispatch(updateTaskAC(todolistId, taskId, updatedTitle)),[taskId, todolistId, dispatch])
+
+    // @ts-ignore
+    const updateEditableSpan=useCallback((updatedTitle: string) => dispatch(updateTaskTC(todolistId, taskId, {title:updatedTitle})), [taskId, todolistId, dispatch])
 
     return {changeStatusHandler, deleteTaskHandler, updateEditableSpan}
 }
@@ -33,7 +46,9 @@ export function useTasks(todolistId: string) {
     },[])
 
     const addTaskHandler=useCallback((title: string)=> {
-        dispatch(addTaskAC(todolistId, title))
+// @ts-ignore
+        dispatch(addTaskTC(todolistId,title))
+        //dispatch(addTaskAC(todolistId, title))
         //props.addTask(props.todolistId, title)
     },[todolistId, dispatch])
     return {tasks, addTaskHandler}

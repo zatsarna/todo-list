@@ -1,7 +1,7 @@
 import {
-    addTodolistAC,
-    changeFilterAC,
-    deleteTodolistAC, fetchTodolistsTC,
+    addTodolistAC, addTodolistTC,
+    changeFilterAC, changeTodolistTitleTC,
+    deleteTodolistAC, deleteTodolistTC, fetchTodolistsTC,
     FilterType, SetTodolistsAC,
     TodolistDomainType, updateTodolistTitleAC
 } from '../../Reducers/todolistReducer';
@@ -24,14 +24,21 @@ export function useTodolist() {
         dispatch(changeFilterAC(value, ID))
     },[dispatch])
     const deleteTodolist =useCallback( (todolistID: string) => {
-        dispatch(deleteTodolistAC(todolistID))
+        // @ts-ignore
+        dispatch(deleteTodolistTC(todolistID))
+        //dispatch(deleteTodolistAC(todolistID))
     },[dispatch])
     const addTodoList =useCallback( (todoListTitle: string) => {
-        const action=addTodolistAC(todoListTitle)
-        dispatch(action)
+        // @ts-ignore
+        dispatch(addTodolistTC(todoListTitle))
+       /* const action=addTodolistAC(todoListTitle)
+        dispatch(action)*/
     }, [dispatch])
     const updateTodolistTitle=useCallback((todolistID: string, updatedTitle: string)=> {
-        dispatch(updateTodolistTitleAC(todolistID, updatedTitle))
+
+        // @ts-ignore
+        dispatch(changeTodolistTitleTC(todolistID,updatedTitle))
+        //dispatch(updateTodolistTitleAC(todolistID, updatedTitle))
     },[dispatch])
     return {todolists, changeFilter, deleteTodolist, addTodoList, updateTodolistTitle}
 }

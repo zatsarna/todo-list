@@ -1,5 +1,5 @@
 import {useDispatch} from 'react-redux';
-import {changeTaskStatusAC, deleteTaskAC, updateTaskAC} from './Reducers/tasksReducer';
+import {changeTaskAC, deleteTaskAC} from './Reducers/tasksReducer';
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SuperCheckBox from './components/SuperCheckBox';
@@ -40,7 +40,7 @@ const updateEditableSpan=useCallback((updatedTitle: string) => dispatch(updateTa
             {/* <input type="checkbox" onChange={changeIsDoneHandler} checked={el.isDone}/>*/}
             {/*<Checkbox   color="success" onChange={changeIsDoneHandler} checked={el.isDone}/>*/}
             <SuperCheckBox checked={props.el.status===TaskStatuses.Completed} color={'primary'}
-                           callback={(checked: boolean) => changeStatusHandler(props.el.id, checked )}/>
+                           callback={(checked: TaskStatuses) => changeStatusHandler(props.el.id, checked )}/>
             <EditableSpan oldTitle={props.el.title}
                           calback={updateEditableSpan}/>
         </li>

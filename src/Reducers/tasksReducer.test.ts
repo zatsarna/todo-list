@@ -1,15 +1,20 @@
 import {
     addTaskAC,
     addTaskACType,
-    changeTaskStatusAC,
-    changeTaskStatusACType,
+    changeTaskAC,
+    changeTaskACType,
     deleteTaskAC,
-    deleteTaskACType, setTasksAC,
-    tasksReducer,
-    updateTaskAC,
-    updateTaskACType
+    deleteTaskACType,
+    setTasksAC,
+    tasksReducer
 } from './tasksReducer';
-import {addTodolistAC, addTodolistACType, deleteTodolistAC, SetTodolistsAC} from './todolistReducer';
+import {
+    addTodolistAC,
+    addTodolistACType,
+    deleteTodolistAC,
+    SetTodolistsAC,
+    TodolistDomainType
+} from './todolistReducer';
 import {tasksObjectType} from '../App/AppWithRedux';
 import {TaskPriorities, TaskStatuses} from '../api/tasks-api';
 import {v1} from 'uuid';
@@ -37,20 +42,18 @@ test('new task added to correct todolist', ()=>{
     const startState: tasksObjectType={
         'todolistID1': [
             {id: '1', title: 'HTML&CSS', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID1'},
-            {id: '2', title: 'JS', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID1'},
-            {id: '3', title: 'ReactJS', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID1'},
+            {id: '2', title: 'JS', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID1'}
         ],
         'todolistID2': [
-            {id: '1', title: 'HTML&CSS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
-            {id: '2', title: 'JS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
-            {id: '3', title: 'ReactJS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
+            {id: '1', title: 'HTML&CSS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'}
         ]
     }
-    const action:addTaskACType=addTaskAC('todolistID2','NewTask*')
+    const newTask={id: '4', title: 'XXX', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'}
+    const action:addTaskACType=addTaskAC(newTask)
     const endState: tasksObjectType=tasksReducer(startState, action)
-    expect(endState['todolistID1'].length).toBe(3)
-    expect(endState['todolistID2'].length).toBe(4)
-    expect(endState['todolistID2'][0].title).toBe('NewTask*')
+    expect(endState['todolistID1'].length).toBe(2)
+    expect(endState['todolistID2'].length).toBe(2)
+    expect(endState['todolistID2'][0].title).toBe('XXX')
     expect(endState['todolistID2'][0].status).toBe(TaskStatuses.New)
     expect(endState['todolistID2'][0].id).toBeDefined()
 
@@ -68,7 +71,7 @@ test('change task status', ()=>{
             {id: '3', title: 'ReactJS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
         ]
     }
-    const action:changeTaskStatusACType=changeTaskStatusAC('todolistID2','2', false)
+    const action:changeTaskACType=changeTaskAC('todolistID2','2', {status: TaskStatuses.New, deadline: '', priority: TaskPriorities.Low, startDate: '', title: 'JS2', description: ''})
     const endState: tasksObjectType=tasksReducer(startState, action)
 
     expect(endState['todolistID1'][1].status).toBe(TaskStatuses.New)
@@ -90,7 +93,7 @@ test('update task title', ()=>{
             {id: '3', title: 'ReactJS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
         ]
     }
-    const action:updateTaskACType=updateTaskAC('todolistID2','2', 'NewTitle***')
+    const action:changeTaskACType=changeTaskAC('todolistID2','2', {status: TaskStatuses.New, deadline: '', priority: TaskPriorities.Low, startDate: '', title: 'NewTitle***', description: ''})
     const endState: tasksObjectType=tasksReducer(startState, action)
 
     expect(endState['todolistID1'][1].title).toBe('JS')
@@ -110,8 +113,9 @@ test('empty array should be added when a new todolist was added', ()=>{
             {id: '3', title: 'ReactJS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
         ]
     }
-
-    const action:addTodolistACType=addTodolistAC('NewTodolist**')
+    let todolistID3 = v1()
+    const newTL: TodolistDomainType = {id: todolistID3, title: 'What to learn2', filter: 'all', addedDate: '', order: 1}
+    const action:addTodolistACType=addTodolistAC(newTL)
     const endState: tasksObjectType=tasksReducer(startState, action)
 
     const keys: string[]=Object.keys(endState)

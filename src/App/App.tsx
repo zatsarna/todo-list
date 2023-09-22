@@ -16,10 +16,9 @@ import {
 } from '../Reducers/todolistReducer';
 import {
     addTaskAC,
-    changeTaskStatusAC,
+    changeTaskAC,
     deleteTaskAC,
-    tasksReducer,
-    updateTaskAC
+    tasksReducer
 } from '../Reducers/tasksReducer';
 import {TaskPriorities, TaskStatuses, TaskType} from '../api/tasks-api';
 
