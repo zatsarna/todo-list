@@ -1,17 +1,16 @@
 import React, {useCallback} from 'react';
-import {ButtonAndInput} from './components/ButtonAndInput/ButtonAndInput';
-import {EditableSpan} from './components/EditableSpan';
+import {ButtonAndInput} from '../../../components/ButtonAndInput/ButtonAndInput';
+import {EditableSpan} from '../../../components/EditableSpan/EditableSpan';
 import DeleteIcon from '@mui/icons-material/Delete';
 import IconButton from '@mui/material/IconButton';
 import Button from '@mui/material/Button';
 import {useDispatch, useSelector} from 'react-redux';
-import {addTaskAC} from './Reducers/tasksReducer';
-import {AppRootStateType} from './Reducers/store';
-import {Task} from './Task';
-import {TaskStatuses, TaskType} from './api/tasks-api';
-import {FilterType} from './Reducers/todolistReducer';
-import {tasksObjectType} from './App/AppWithRedux';
-import {useTasks} from './App/hooks/UseTasks';
+import {addTaskAC} from '../tasksReducer';
+import {AppRootStateType} from '../../../App/store';
+import {Task} from './Task/Task';
+import {TaskStatuses, TaskType} from '../../../api/tasks-api';
+import {FilterType} from '../todolistReducer';
+import {useTasks} from '../../../App/hooks/UseTasks';
 
 /*export type TaskType = {
     id: string

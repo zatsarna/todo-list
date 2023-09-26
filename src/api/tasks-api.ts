@@ -1,12 +1,8 @@
 import axios from 'axios';
 import {ResponceType} from './todolists-api';
-export const instance=axios.create({
-    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
-    withCredentials: true,
-    headers: {
-        'API-KEY': 'e56039dc-1bc5-46ae-a274-05b570794f8e'
-    }
-})
+
+
+//types
 export enum TaskPriorities {
     Low=0,
     Middle=1,
@@ -47,6 +43,17 @@ type TasksResponceType={
     error: string | null
 }
 
+
+export const instance=axios.create({
+    baseURL: 'https://social-network.samuraijs.com/api/1.1/',
+    withCredentials: true,
+    headers: {
+        'API-KEY': 'e56039dc-1bc5-46ae-a274-05b570794f8e'
+    }
+})
+
+
+//api
 export const tasksAPI = {
     getTasks(todolistId: string) {
         return instance.get<TasksResponceType>(`todo-lists/${todolistId}/tasks`)

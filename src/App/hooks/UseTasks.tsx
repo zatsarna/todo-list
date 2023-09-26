@@ -1,13 +1,11 @@
 import {useDispatch, useSelector} from 'react-redux';
-import {AppRootStateType} from '../../Reducers/store';
+import {AppRootStateType} from '../store';
 import {tasksAPI, TaskStatuses, TaskType} from '../../api/tasks-api';
 import {
-    addTaskAC, addTaskTC,
-    changeTaskAC,
-    deleteTaskAC,
+    addTaskTC,
     deleteTaskTC,
     fetchTasksTC, updateTaskTC
-} from '../../Reducers/tasksReducer';
+} from '../../features/TodolistsList/tasksReducer';
 import {useCallback, useEffect} from 'react';
 
 export function useTask(todolistId: string, taskId: string) {

@@ -2,10 +2,10 @@ import {
     addTaskAC,
     addTaskACType,
     changeTaskAC,
-    changeTaskACType,
-    deleteTaskAC,
+    changeTaskACType, deleteTaskAC,
+
     deleteTaskACType,
-    setTasksAC,
+    setTasksAC, tasksObjectType,
     tasksReducer
 } from './tasksReducer';
 import {
@@ -15,8 +15,8 @@ import {
     SetTodolistsAC,
     TodolistDomainType
 } from './todolistReducer';
-import {tasksObjectType} from '../App/AppWithRedux';
-import {TaskPriorities, TaskStatuses} from '../api/tasks-api';
+
+import {TaskPriorities, TaskStatuses} from '../../api/tasks-api';
 import {v1} from 'uuid';
 
 test('delete corresponding task', ()=>{
@@ -71,7 +71,7 @@ test('change task status', ()=>{
             {id: '3', title: 'ReactJS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
         ]
     }
-    const action:changeTaskACType=changeTaskAC('todolistID2','2', {status: TaskStatuses.New, deadline: '', priority: TaskPriorities.Low, startDate: '', title: 'JS2', description: ''})
+    const action:changeTaskACType=changeTaskAC('todolistID2','2', {status: TaskStatuses.New})
     const endState: tasksObjectType=tasksReducer(startState, action)
 
     expect(endState['todolistID1'][1].status).toBe(TaskStatuses.New)
@@ -93,7 +93,7 @@ test('update task title', ()=>{
             {id: '3', title: 'ReactJS2', status: TaskStatuses.New, completed: false, description: '', priority: TaskPriorities.Low, startDate: '', deadline: '', order: 1, addedDate: '', todoListId: 'todolistID2'},
         ]
     }
-    const action:changeTaskACType=changeTaskAC('todolistID2','2', {status: TaskStatuses.New, deadline: '', priority: TaskPriorities.Low, startDate: '', title: 'NewTitle***', description: ''})
+    const action:changeTaskACType=changeTaskAC('todolistID2','2', { title: 'NewTitle***'})
     const endState: tasksObjectType=tasksReducer(startState, action)
 
     expect(endState['todolistID1'][1].title).toBe('JS')

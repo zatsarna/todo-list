@@ -1,6 +1,6 @@
-import {tasksObjectType} from '../App/AppWithRedux';
+
 import {addTodolistAC, TodolistDomainType, todolistsReducer} from './todolistReducer';
-import {tasksReducer} from './tasksReducer';
+import {tasksObjectType, tasksReducer} from './tasksReducer';
 import {v1} from 'uuid';
 
 test('ids should be equal', ()=>{

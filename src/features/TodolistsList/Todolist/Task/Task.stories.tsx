@@ -3,11 +3,11 @@ import React from 'react'
 import {Task} from './Task';
 import {action} from '@storybook/addon-actions'
 import {Provider, useSelector} from 'react-redux';
-import {AppRootStateType, store} from './Reducers/store';
-import {ReduxStoreProviderDecorator} from './stories/ReduxStoreProviderDecorator';
-import {CommonTodolistType, TodolistDomainType} from './Reducers/todolistReducer';
+import {AppRootStateType, store} from '../../../../App/store';
+import {ReduxStoreProviderDecorator} from '../../../../stories/ReduxStoreProviderDecorator';
+import {CommonTodolistType, TodolistDomainType} from '../../todolistReducer';
 import {Story} from '@storybook/react';
-import {TaskType} from './api/tasks-api';
+import {TaskType} from '../../../../api/tasks-api';
 export default {
     title: 'TODO/Task stories',
     component: Task,
