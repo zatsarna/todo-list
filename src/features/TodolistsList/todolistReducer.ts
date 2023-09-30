@@ -1,6 +1,8 @@
 import {v1} from 'uuid';
 import {todolistsAPI, TodolistType} from '../../api/todolists-api';
 import {Dispatch} from 'redux';
+import {AppActionTypes, AppRootStateType, AppThunk} from '../../App/store';
+import {ThunkAction} from 'redux-thunk';
 
 //types
 export type FilterType = 'all' | 'active' | 'completed'
@@ -54,23 +56,29 @@ export const SetTodolistsAC = (todolists: TodolistType[]) => ({type: 'SET-TODOLI
 
 
 //ThunkCreator
-export const fetchTodolistsTC = () => {
-    return (dispatch: Dispatch<CommonTodolistType>) => {
+export const fetchTodolistsTC = (): AppThunk => {
+    return (dispatch) => {
         todolistsAPI.getTodolists().then(res => dispatch(SetTodolistsAC(res.data)))
     }
 }
-export const deleteTodolistTC = (todolistID: string) => {
-    return (dispatch: Dispatch<CommonTodolistType>) => {
+export const deleteTodolistTC = (todolistID: string): AppThunk => {
+    return (dispatch) => {
         todolistsAPI.deleteTodolist(todolistID).then(res => dispatch(deleteTodolistAC(todolistID)))
     }
 }
-export const addTodolistTC = (title: string) => {
-    return (dispatch: Dispatch<CommonTodolistType>) => {
-        todolistsAPI.createTodolists(title).then(res => dispatch(addTodolistAC(res.data.data.item)))
+// ThunkAction Typization
+// 1 параметр - описываем, что возвращает thunk
+// 2 параметр - state всего приложения
+// 3 параметр - экстра аргументы
+// 4 параметр - все action всего App
+
+export const addTodolistTC = (title: string): AppThunk => {
+    return (dispatch) => {
+        todolistsAPI.createTodolists(title).then(res => dispatch(fetchTodolistsTC()))
     }
 }
-export const changeTodolistTitleTC = (todolistId: string, newTitle: string) => {
-    return (dispatch: Dispatch<CommonTodolistType>) => {
+export const changeTodolistTitleTC = (todolistId: string, newTitle: string): AppThunk => {
+    return (dispatch) => {
         todolistsAPI.updateTodolistTitle(todolistId, newTitle).then(res => dispatch(updateTodolistTitleAC(todolistId, newTitle)))
     }
 }
