@@ -83,9 +83,18 @@ export const setTasksAC = (todolistID: string, tasks: Array<TaskType>) => ({
 
 
 //ThunkCreator
-export const fetchTasksTC = (todolistID: string): AppThunk => ((dispatch) => {
+export const fetchTasksTC = (todolistID: string): AppThunk => async dispatch => {
+    try {
+        const res= await tasksAPI.getTasks(todolistID)
+        dispatch(setTasksAC(todolistID, res.data.items))
+    } catch(e){
+        console.warn('error')
+    }
+
+}
+/*export const fetchTasksTC = (todolistID: string): AppThunk => ((dispatch) => {
     tasksAPI.getTasks(todolistID).then(res => dispatch(setTasksAC(todolistID, res.data.items)))
-})
+})*/
 export const deleteTaskTC = (todolistID: string, taskId: string): AppThunk => ((dispatch) => {
     tasksAPI.deleteTask(todolistID, taskId).then(res => dispatch(deleteTaskAC(taskId, todolistID)))
 })
