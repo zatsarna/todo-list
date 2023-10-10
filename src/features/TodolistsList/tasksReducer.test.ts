@@ -114,7 +114,7 @@ test('empty array should be added when a new todolist was added', ()=>{
         ]
     }
     let todolistID3 = v1()
-    const newTL: TodolistDomainType = {id: todolistID3, title: 'What to learn2', filter: 'all', addedDate: '', order: 1}
+    const newTL: TodolistDomainType = {id: todolistID3, title: 'What to learn2', filter: 'all', addedDate: '', order: 1, todoStatus: 'idle'}
     const action:addTodolistACType=addTodolistAC(newTL)
     const endState: tasksObjectType=tasksReducer(startState, action)
 

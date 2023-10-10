@@ -2,14 +2,15 @@ import {applyMiddleware, combineReducers, createStore} from 'redux';
 import {CommonTasksType, tasksReducer} from '../features/TodolistsList/tasksReducer';
 import {CommonTodolistType, todolistsReducer} from '../features/TodolistsList/todolistReducer';
 import thunkMiddleware, {ThunkAction} from 'redux-thunk';
+import {appReducer, setErrorACType, setStatusACType} from './App-reducer';
 
-export const rootReducer = combineReducers({tasks: tasksReducer, todolists: todolistsReducer})
+export const rootReducer = combineReducers({tasks: tasksReducer, todolists: todolistsReducer, app: appReducer})
 
 export type AppRootStateType = ReturnType<typeof rootReducer>
 export const store = createStore(rootReducer, applyMiddleware(thunkMiddleware))
 
 //All action types
-export type AppActionTypes = CommonTodolistType | CommonTasksType
+export type AppActionTypes = CommonTodolistType | CommonTasksType | setStatusACType | setErrorACType
 // ThunkAction
 // 1 параметр - описываем, что возвращает thunk
 // 2 параметр - state всего приложения

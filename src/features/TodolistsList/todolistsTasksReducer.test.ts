@@ -8,7 +8,7 @@ test('ids should be equal', ()=>{
     const startTodolistState: TodolistDomainType[]=[]
     let todolistID3 = v1()
 
-    const newTL: TodolistDomainType = {id: todolistID3, title: 'What to learn2', filter: 'all', addedDate: '', order: 1}
+    const newTL: TodolistDomainType = {id: todolistID3, title: 'What to learn2', filter: 'all', addedDate: '', order: 1, todoStatus: 'idle'}
     const action=addTodolistAC(newTL)
     const endTasksState=tasksReducer(startTasksState,action)
     //={'newtlID': []}
