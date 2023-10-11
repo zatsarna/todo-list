@@ -10,11 +10,14 @@ import {AppRootStateType} from '../store';
 import {useCallback, useEffect} from 'react';
 import {todolistsAPI} from '../../api/todolists-api';
 
-export function useTodolist() {
+export function useTodolist(demo: boolean) {
     const todolists = useSelector<AppRootStateType, TodolistDomainType[]>(state => state.todolists)
     const dispatch=useDispatch()
 
     useEffect(()=>{
+        if (demo){
+            return
+        }
         // @ts-ignore
         dispatch(fetchTodolistsTC())
     },[])

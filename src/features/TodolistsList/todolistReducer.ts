@@ -3,7 +3,7 @@ import {todolistsAPI, TodolistType} from '../../api/todolists-api';
 import {Dispatch} from 'redux';
 import {AppActionTypes, AppRootStateType, AppThunk} from '../../App/store';
 import {ThunkAction} from 'redux-thunk';
-import {requestStatusType, setStatusAC, setStatusACType} from '../../App/App-reducer';
+import {requestStatusType, setAppErrorACType, setAppStatusAC, setAppStatusACType} from '../../App/App-reducer';
 
 //types
 export type FilterType = 'all' | 'active' | 'completed'
@@ -14,12 +14,14 @@ export type CommonTodolistType =
     | changeFilterACType
     | addTodolistACType
     | SetTodolistsACType
-type todoThunkDispatch=Dispatch<CommonTodolistType | setStatusACType>
+    | changeTodoStatusACType
+export type todoThunkDispatch = Dispatch<CommonTodolistType | setAppStatusACType | setAppErrorACType>
 export type deleteTodolistACType = ReturnType<typeof deleteTodolistAC>
 type updateTodolistTitleACType = ReturnType<typeof updateTodolistTitleAC>
 type changeFilterACType = ReturnType<typeof changeFilterAC>
 export type addTodolistACType = ReturnType<typeof addTodolistAC>
 export type SetTodolistsACType = ReturnType<typeof SetTodolistsAC>
+export type changeTodoStatusACType = ReturnType<typeof changeTodoStatusAC>
 
 export let todolistID1 = v1()
 export let todolistID2 = v1()
@@ -36,6 +38,8 @@ export const todolistsReducer = (todolists: TodolistDomainType[] = initialState,
             } : el)
         case 'ChangeFilter':
             return todolists.map(tl => tl.id === action.payload.ID ? {...tl, filter: action.payload.value} : tl)
+        case 'ChangeTodoStatus':
+            return todolists.map(el =>el.id===action.payload.todolistId ? {...el, todoStatus: action.payload.status}: el)
         case 'AddTodolist':
             return [{...action.payload.todolist, filter: 'all', todoStatus: 'idle'}, ...todolists]
         case 'SET-TODOLISTS':
@@ -52,6 +56,10 @@ export const updateTodolistTitleAC = (todolistID: string, updatedTitle: string) 
     payload: {todolistID, updatedTitle}
 } as const)
 export const changeFilterAC = (value: FilterType, ID: string) => ({type: 'ChangeFilter', payload: {value, ID}} as const)
+export const changeTodoStatusAC = (status: requestStatusType, todolistId: string) => ({
+    type: 'ChangeTodoStatus',
+    payload: {status, todolistId}
+} as const)
 export const addTodolistAC = (todolist: TodolistType) => ({type: 'AddTodolist', payload: {todolist}} as const)
 export const SetTodolistsAC = (todolists: TodolistType[]) => ({type: 'SET-TODOLISTS', payload: {todolists}} as const)
 
@@ -59,16 +67,21 @@ export const SetTodolistsAC = (todolists: TodolistType[]) => ({type: 'SET-TODOLI
 //ThunkCreator
 export const fetchTodolistsTC = (): AppThunk => {
     return (dispatch: todoThunkDispatch) => {
-        dispatch(setStatusAC('loading'))
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.getTodolists().then(res => {
             dispatch(SetTodolistsAC(res.data))
-            dispatch(setStatusAC('succeeded'))
+            dispatch(setAppStatusAC('succeeded'))
         })
     }
 }
 export const deleteTodolistTC = (todolistID: string): AppThunk => {
-    return (dispatch) => {
-        todolistsAPI.deleteTodolist(todolistID).then(res => dispatch(deleteTodolistAC(todolistID)))
+    return (dispatch: todoThunkDispatch) => {
+        dispatch(setAppStatusAC('loading'))
+        dispatch(changeTodoStatusAC('loading', todolistID))
+        todolistsAPI.deleteTodolist(todolistID).then(res => {
+            dispatch(setAppStatusAC('succeeded'))
+            dispatch(deleteTodolistAC(todolistID))
+        })
     }
 }
 // ThunkAction Typization
@@ -79,10 +92,10 @@ export const deleteTodolistTC = (todolistID: string): AppThunk => {
 
 export const addTodolistTC = (title: string): AppThunk => {
     return (dispatch) => {
-        dispatch(setStatusAC('loading'))
+        dispatch(setAppStatusAC('loading'))
         todolistsAPI.createTodolists(title).then(res => {
             dispatch(fetchTodolistsTC())
-            dispatch(setStatusAC('succeeded'))
+            dispatch(setAppStatusAC('succeeded'))
         })
     }
 }

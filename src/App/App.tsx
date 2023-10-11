@@ -16,9 +16,11 @@ import {AppRootStateType} from './store';
 import {requestStatusType} from './App-reducer';
 
 
+type AppPropsType={
+    demo?: boolean
+}
 
-
-export function App() {
+export function App({demo=false}: AppPropsType) {
     const status=useSelector<AppRootStateType, requestStatusType>(state=>state.app.status)
     console.log('App with redux')
     //const dispatch=useDispatch()
@@ -42,7 +44,7 @@ export function App() {
             { status==='loading' && <LinearProgress  />}
             <Container fixed>
                 <ErrorSnackbar/>
-                <TodolistsList/>
+                <TodolistsList demo={demo}/>
             </Container>
 
         </div>

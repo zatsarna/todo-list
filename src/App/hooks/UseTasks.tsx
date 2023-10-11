@@ -33,14 +33,17 @@ export function useTask(todolistId: string, taskId: string) {
 
     return {changeStatusHandler, deleteTaskHandler, updateEditableSpan}
 }
-export function useTasks(todolistId: string) {
+export function useTasks(todolistId: string, demo: boolean) {
     const dispatch = useDispatch()
     const tasks= useSelector<AppRootStateType, TaskType[]>(state => state.tasks[todolistId])
 
     useEffect(()=>{
-
+        if (demo) {
+            return;
+        }
         // @ts-ignore
         dispatch(fetchTasksTC(todolistId))
+
     },[])
 
     const addTaskHandler=useCallback((title: string)=> {

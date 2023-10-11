@@ -14,3 +14,8 @@ export const AddItemFormBaseExample=(props: any)=>{
 return <ButtonAndInput  callback={action('ButtonAndInput')}/>
 }
 
+export const AddItemFormDisabled=(props: any)=>{
+
+    return <ButtonAndInput disabled={true}  callback={action('ButtonAndInput')}/>
+}
+

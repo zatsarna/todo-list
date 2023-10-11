@@ -6,8 +6,11 @@ import {useTodolist} from '../../App/hooks/UseTodolists';
 import {ButtonAndInput} from '../../components/ButtonAndInput/ButtonAndInput';
 
 
-const TodolistsList = () => {
-    const {todolists, changeFilter, deleteTodolist, updateTodolistTitle, addTodoList} = useTodolist()
+type TodolistListPropsType={
+    demo?: boolean
+}
+const TodolistsList: React.FC<TodolistListPropsType> = ({demo=false}) => {
+    const {todolists, changeFilter, deleteTodolist, updateTodolistTitle, addTodoList} = useTodolist(demo)
     return (<>
             <Grid container style={{marginTop: '30px'}}>
                 <ButtonAndInput callback={addTodoList}/>
@@ -18,12 +21,12 @@ const TodolistsList = () => {
                         return (
                             <Grid item key={el.id}>
                                 <Paper elevation={3} style={{padding: '15px'}}>
-                                    <Todolist title={el.title}
+                                    <Todolist
                                               changeFilter={changeFilter}
-                                              filter={el.filter}
-                                              todolistId={el.id}
+                                              todolist={el}
                                               deleteTodolist={deleteTodolist}
                                               updateTodolistTitle={updateTodolistTitle}
+                                              demo={demo}
                                     />
                                 </Paper>
                             </Grid>

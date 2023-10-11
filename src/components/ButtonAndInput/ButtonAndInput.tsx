@@ -4,10 +4,11 @@ import TextField from '@mui/material/TextField';
 import {useButtonAndInput} from './hooks/useButtonAndInput';
 type PropsType={
     callback: (title: string) => void
+    disabled?: boolean
 }
-export const ButtonAndInput =React.memo( (props: PropsType) => {
+export const ButtonAndInput =React.memo( ({disabled=false, callback}: PropsType) => {
     console.log("button and input")
-    const {title, error, onChangeHandler, onKeyDownHandler, addTaskHandler}=useButtonAndInput(props.callback)
+    const {title, error, onChangeHandler, onKeyDownHandler, addTaskHandler}=useButtonAndInput(callback)
     /*let [title, setTitle] = useState('')
     const [error, setError]=useState<null | string>(null)
     const onChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -41,8 +42,9 @@ export const ButtonAndInput =React.memo( (props: PropsType) => {
                 value={title}
                 onKeyDown={onKeyDownHandler}
                 error={!!error}
+                disabled={disabled}
             />
-            <Button variant="contained" onClick={addTaskHandler} style={muiButtonStyle}>+</Button>
+            <Button disabled={disabled} variant="contained" onClick={addTaskHandler} style={muiButtonStyle}>+</Button>
             {/*{error && <div className={"errorMessage"}>{error}</div>}*/}
         </div>
 
